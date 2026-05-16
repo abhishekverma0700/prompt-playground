@@ -100,7 +100,7 @@ def delete_prompt(prompt_id):
         'message':'Prompt deleted successfully'
     })
 
-@prompts_bp.route('/api/export',methods=['GET'])
+@prompts_bp.route('/api/export',methods=['POST'])
 def export_prompts():
     prompts=Prompt.query.all()
     return jsonify({
@@ -108,32 +108,35 @@ def export_prompts():
         'prompts':[p.to_dict() for p in prompts]
     })
 
-@prompts_bp.route('/api/import',methods=['POST'])
+@prompts_bp.route('/api/import', methods=['POST'])
 def import_prompts():
-    data=request.get_json()
-    prompts_data=data.get('prompts',[])
-    imported=0
+    data = request.get_json()
+    prompts_data = data.get('prompts', [])
+    
+    imported = 0
     for p in prompts_data:
-        tags=p.get('tags',[])
-        if isinstance(tags,list):
-            tags=','.join(tags)
-        prompt=prompt(
-            name=p.get('name','Imported Prompt'),
-            description=p.get('description',''),
-            system_prompt=p.get('system_prompt',''),
-            user_prompt=p.get('user_prompt',''),
-            category=p.get('category','General'),
+        tags = p.get('tags', [])
+        if isinstance(tags, list):
+            tags = ','.join(tags)
+            
+        new_prompt = Prompt(
+            name=p.get('name', 'Imported Prompt'),
+            description=p.get('description', ''),
+            system_prompt=p.get('system_prompt', ''),
+            user_prompt=p.get('user_prompt', ''),
+            category=p.get('category', 'General'),
             tags=tags,
-            technique=p.get('technique','zero-shot'),
-            temperature=float(p.get('temperature',0.7)),
-            max_tokens=int(p.get('max_tokens',1024)),
-            top_p=float(p.get('top_p',1.0)),
+            technique=p.get('technique', 'zero-shot'),
+            temperature=float(p.get('temperature', 0.7)),
+            max_tokens=int(p.get('max_tokens', 1024)),
+            top_p=float(p.get('top_p', 1.0)),
         )
-        db.session.add(prompt)
-        imported +=1
+        db.session.add(new_prompt)
+        imported += 1
+    
     db.session.commit()
+    
     return jsonify({
         'success': True,
-        'message': f'{imported} prompts imported successfully'
-
+        'message': f'{imported} prompts imported!'
     })
