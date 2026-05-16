@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: prompt-playground-backend
+    runtime: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && gunicorn "app:create_app()"
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+        
