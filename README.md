@@ -1,8 +1,6 @@
 # 🧪 Prompt Engineering Playground
 
 An interactive web application to experiment with different prompt engineering techniques, compare outputs, and understand how LLM parameters affect responses.
-
-**Assignment #2 | Excellence Technologies Pvt Ltd | Phase 1 - GenAI Fundamentals**
 ---
 
 ## ✨ Features
