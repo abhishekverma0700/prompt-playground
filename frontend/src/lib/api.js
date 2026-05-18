@@ -1,5 +1,5 @@
 // Backend ka base URL
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = 'https://prompt-playground-1-ubh7.onrender.com/api/templates';
 
 // =====================
 // GENERATE

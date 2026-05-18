@@ -14,7 +14,6 @@ def create_app():
     app.config.from_object(Config)
     
     CORS(app)
-    
     init_db(app)
     
     app.register_blueprint(generate_bp)
